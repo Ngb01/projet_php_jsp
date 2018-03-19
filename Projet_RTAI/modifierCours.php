@@ -1,12 +1,12 @@
 <?php
-  include 'connexion.php'
+  include 'connexion.php';
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Ajouter un diplôme</title>
+    <title>Modification d'un cours</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -34,52 +34,25 @@
       </div>
     </nav>
 
-    <h1>Ajouter un diplôme</h1>
-    <form method="post" action="ajouterDiplomes.php">
-        Intitulé : <input type="text" name="intitule"/> <br/>
-        Adresse web : <input type="text" name="adresseweb"/> <br/>
-        Niveau : <input type="text" name="niveau"/> <br/>
+    <form method="post" action="modifierCours.php">
+        Code Cours: <input type="text" name="codecours" value="<?php echo $data[0]; ?>"/> <br/>
+        Libellé : <input type="text" name="libelle" value="<?php echo $data[1]; ?>"/><br/>
+        Nombres d'ECTS : <input type="number" name="nbects" value="<?php echo $data[2]; ?>"/><br/>
 
         <br/><input type="submit" name="envoyer" value="Envoyer"/>
         <input type="reset" name="vider" value="Vider"/>
+        <br>
     </form>
 
     <?php
-      if (isset($_POST['envoyer'])) {
-        $msg_erreur = "Erreur. Les champs suivants doivent être obligatoirement remplis :<br/><br/>";
-	      $message = $msg_erreur;
-
-        //verification des champs
-        if (empty($_POST['intitule']))
-          $message .= "Intitulé<br/>";
-        if (empty($_POST['adresseweb']))
-          $message .= "Adresse web<br/>";
-        if (empty($_POST['niveau']))
-          $message .= "Niveau<br/>";
-
-      //si un champ est vide, on affiche le message d'erreur
-      if (strlen($message) > strlen($msg_erreur)) {
-        echo $message;
-      } else {
-        //Recupération des paramètres du formulaire
-        $req = $linkpdo->prepare('INSERT INTO diplomes (INTITULEDIP, ADRESSEWEBD, NIVEAU) VALUES (:intitule, :adresseweb, :niveau)');
-
-        $req->execute(array(
-      		'intitule' => $_POST['intitule'],
-      		'adresseweb' => $_POST['adresseweb'],
-      		'niveau' => $_POST['niveau']
-        ));
-
-        if ($req) {
-          echo 'Le diplome a bien été ajouté !';
-        } else {
-          echo 'Le diplome n a pas été ajouté: erreur !';
-        }
-      }
-
+    if( isset( $_POST['envoyer'] ) ){
+      $req = $linkpdo->prepare('UPDATE cours SET CODECOURS=:codecours, LIBELLECOURS=:libelle, NBECTS=:nbects WHERE CODECOURS='.$_GET['ID']);
+    	$req->execute(array(
+    		'codecours' => $_POST['codecours'],
+    		'libelle' => $_POST['libelle'],
+    		'nbects' => $_POST['nbects']));
+    	header("Refresh: 20;index.php");
     }
-
     ?>
-
   </body>
 </html>

@@ -1,0 +1,40 @@
+/* MENU */
+
+#titre {
+  text-align: center;
+  padding-bottom: 5%;
+  padding-top: 5%;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}
+
+/* TABLEAU */
+
+table{
+	border: 1px solid black;
+	border-collapse:collapse;
+  margin: auto;
+  margin-top: 10%;
+  width: 80%;
+}
+
+td{
+ border: 1px solid black;
+ text-align: center;
+}
+
+th{
+ border: 1px solid black;
+ padding-left: 1%;
+ padding-right: 1%;
+ padding-top: 1%;
+ padding-bottom: 1%;
+ font-weight: normal;
+}
+
+.titre{
+  text-align: center;
+  font-weight: bold;
+}
