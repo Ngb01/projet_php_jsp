@@ -21,22 +21,26 @@
   <body>
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <div id="titre">
-          <a href="index.php"><h1>Gestion de la mobilité des étudiatnts</h1></a>
-        </div>
+        <a href="index.php"><h1 id="titre">Gestion de la mobilité des étudiatnts</h1></a>
         <ul class="nav navbar-nav">
           <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
-          <li><a href="#">Contrat</a></li>
+          <li><a href="afficherContrats.php">Contrat</a></li>
           <li><a href="afficherCours.php">Cours</a></li>
           <li><a href="#">Demande financière</a></li>
           <li><a href="#">Demande mobilité</a></li>
           <li><a href="afficherDiplomes.php">Diplome</a></li>
-          <li><a href="#">Etudiant</a></li>
-          <li><a href="#">Programme</a></li>
+          <li><a href="afficherEtudiants.php">Etudiant</a></li>
+          <li><a href="afficherProgrammes.php">Programme</a></li>
         </ul>
       </div>
     </nav>
-    
+
+    <h2 id="titre2">Affichage des diplomes</h2>
+
+    <button type="button" id="ajout" class="btn btn-light" aria-label="Left Align">
+      <a href="ajouterDiplome.php"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Ajouter un diplome</a>
+    </button>
+
     <table>
       <tr>
         <th class="titre">Intitulé</th>
@@ -55,8 +59,8 @@
         		<th><?php echo $data[3]; ?></th>
 
 
-        		<td><?php echo '<a href="modifierDiplomes.php?ID='.$data['CODEDIP'].'">'."Modifier".'</a>'; ?></td>
-        		<td><?php echo '<a href="supprimerDiplomes.php?ID='.$data['CODEDIP'].'">'."Supprimer".'</a>'; ?></td>
+            <td><?php echo '<a href="modifierDiplome.php?ID='.$data['INTITULEDIP'].'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>'; ?></td>
+        		<td><?php echo '<a href="supprimerDiplome.php?ID='.$data['INTITULEDIP'].'"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a>'; ?></td>
         	</tr>
         <?php
         	}

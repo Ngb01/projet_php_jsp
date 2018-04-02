@@ -1,12 +1,12 @@
 <?php
-  include 'connexion.php';
+  include 'connexion.php'
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
     <meta charset="utf-8">
-    <title>Modification d'un cours</title>
+    <title>Ajouter un programme</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -34,23 +34,19 @@
       </div>
     </nav>
 
-    <form id="formulaire" class="form-horizontal" method="post" action="modifierCours.php">
+    <h2 id="titre2">Ajouter un programme</h2>
+
+    <form id="formulaire" class="form-horizontal" method="post" action="ajouterProgrammes.php">
       <div class="form-group">
-        <label class="col-sm-3 control-label">Code Cours</label>
+        <label class="col-sm-3 control-label">Intitulé</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" name="codecours" value="<?php echo $_GET['CODECOURS']; ?>"/> <br/>
+          <input type="text" class="form-control" name="intitule"/> <br/>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-3 control-label">Libellé</label>
+        <label class="col-sm-3 control-label">Explication</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" name="libelle" value="<?php echo $_GET['LIBELLECOURS']; ?>"/> <br/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label">Nombres d'ECTS</label>
-        <div class="col-sm-6">
-          <input type="number" class="form-control" name="nbects" value="<?php echo $_GET['NBECTS']; ?>"/> <br/>
+          <input type="text" class="form-control" name="explication"/> <br/>
         </div>
       </div>
 
@@ -61,14 +57,38 @@
     </form>
 
     <?php
-    if( isset( $_POST['envoyer'] ) ){
-      $req = $linkpdo->prepare('UPDATE cours SET CODECOURS=:codecours, LIBELLECOURS=:libelle, NBECTS=:nbects WHERE CODECOURS='.$_GET['CODECOURS']);
-    	$req->execute(array(
-    		'codecours' => $_POST['codecours'],
-    		'libelle' => $_POST['libelle'],
-    		'nbects' => $_POST['nbects']));
-    	header("Refresh: 20;index.php");
+      if (isset($_POST['envoyer'])) {
+        $msg_erreur = "Erreur. Les champs suivants doivent être obligatoirement remplis :<br/><br/>";
+	      $message = $msg_erreur;
+
+        //verification des champs
+        if (empty($_POST['intitule']))
+          $message .= "Intitulé<br/>";
+        if (empty($_POST['explication']))
+          $message .= "Explication<br/>";
+
+      //si un champ est vide, on affiche le message d'erreur
+      if (strlen($message) > strlen($msg_erreur)) {
+        echo $message;
+      } else {
+        //Recupération des paramètres du formulaire
+        $req = $linkpdo->prepare('INSERT INTO programmes (INTITULEP, EXPLICATION) VALUES (:intitule, :explication)');
+
+        $req->execute(array(
+      		'intitule' => $_POST['intitule'],
+      		'explication' => $_POST['explication'],
+        ));
+
+        if ($req) {
+          echo 'Le programme a bien été ajouté !';
+        } else {
+          echo 'Le programme n a pas été ajouté: erreur !';
+        }
+      }
+
     }
+
     ?>
+
   </body>
 </html>

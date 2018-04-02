@@ -1,8 +1,12 @@
+<?php
+  include 'connexion.php';
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Index</title>
+    <title>Affichage des contrats</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -18,7 +22,6 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <a href="index.php"><h1 id="titre">Gestion de la mobilité des étudiatnts</h1></a>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
           <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
           <li><a href="afficherContrats.php">Contrat</a></li>
@@ -29,9 +32,35 @@
           <li><a href="afficherEtudiants.php">Etudiant</a></li>
           <li><a href="afficherProgrammes.php">Programme</a></li>
         </ul>
-        </div>
       </div>
     </nav>
+    <h2 id="titre2">Affichage des contrats</h2>
 
+    <button type="button" id="ajout" class="btn btn-light" aria-label="Left Align">
+      <a href="ajouterContrat.php"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Ajouter un contrat</a>
+    </button>
+
+    <table>
+      <tr>
+        <th class="titre">Durée (en année)</th>
+        <th class="titre">Etat contrat</th>
+      </tr>
+
+      <?php
+  	   $res = $linkpdo->query("SELECT * FROM contrats");
+  	   ///Affichage des entrées du résultat une à une
+  	   while ($data = $res->fetch()) {
+      ?>
+        <tr>
+        	<th><?php echo $data[1]; ?></th>
+        	<th><?php echo $data[2]; ?></th>
+
+      		<td><?php echo '<a href="modifierContrat.php?ID='.$data['IDCONTRAT'].'"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>'; ?></td>
+      		<td><?php echo '<a href="supprimerContrat.php?ID='.$data['IDCONTRAT'].'"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a>'; ?></td>
+      	</tr>
+      <?php
+        }
+      ?>
+  	</table>
   </body>
 </html>

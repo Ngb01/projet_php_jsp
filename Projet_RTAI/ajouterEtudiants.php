@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Ajouter un cours</title>
+    <title>Ajouter un étudiant</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -34,25 +34,36 @@
       </div>
     </nav>
 
-    <h2 id="titre2">Ajouter un cours</h2>
-
-    <form id="formulaire" class="form-horizontal" method="post" action="ajouterCours.php">
+    <h2 id="titre2">Ajouter un étudiant</h2>
+    <form id="formulaire" class="form-horizontal" method="post" action="ajouterEtudiants.php">
       <div class="form-group">
-        <label class="col-sm-3 control-label">Code Cours</label>
+        <label class="col-sm-3 control-label">Numéro Etudiant</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" name="codecours"/> <br/>
+          <input type="number" class="form-control" name="numetudiant"/> <br/>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-3 control-label">Libellé</label>
+        <label class="col-sm-3 control-label">Nom</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" name="libelle"/> <br/>
+          <input type="text" class="form-control" name="nom"/> <br/>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-3 control-label">Nombres d'ECTS</label>
+        <label class="col-sm-3 control-label">Prenom</label>
         <div class="col-sm-6">
-          <input type="number" class="form-control" name="nbects"/> <br/>
+          <input type="number" class="form-control" name="prenom"/> <br/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">E-mail</label>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" name="email"/> <br/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">CV</label>
+        <div class="col-sm-6">
+          <input type="file" name="cv"/> <br/>
         </div>
       </div>
 
@@ -68,30 +79,36 @@
 	      $message = $msg_erreur;
 
         //verification des champs
-        if (empty($_POST['codecours']))
-          $message .= "Code cours<br/>";
-        if (empty($_POST['libelle']))
-          $message .= "Libelle<br/>";
-        if (empty($_POST['nbects']))
-          $message .= "Nb ECTS<br/>";
+        if (empty($_POST['numetudiant']))
+          $message .= "Numéro étudiant<br/>";
+        if (empty($_POST['nom']))
+          $message .= "Nom<br/>";
+        if (empty($_POST['prenom']))
+          $message .= "Prenom<br/>";
+        if (empty($_POST['email']))
+            $message .= "Email<br/>";
+        if (empty($_POST['cv']))
+            $message .= "CV<br/>";
 
       //si un champ est vide, on affiche le message d'erreur
       if (strlen($message) > strlen($msg_erreur)) {
         echo $message;
       } else {
         //Recupération des paramètres du formulaire
-        $req = $linkpdo->prepare('INSERT INTO cours (CODECOURS, LIBELLECOURS, NBECTS) VALUES (:codecours, :libelle, :nbects)');
+        $req = $linkpdo->prepare('INSERT INTO etudiants (NUMETUDIANT, NOMET, PRENOMET, EMAIL, CV) VALUES (:numetudiant, :nom, :prenom, :email, :cv)');
 
         $req->execute(array(
-      		'codecours' => $_POST['codecours'],
-      		'libelle' => $_POST['libelle'],
-      		'nbects' => $_POST['nbects']
+      		'numetudiant' => $_POST['numetudiant'],
+      		'nom' => $_POST['nom'],
+      		'prenom' => $_POST['prenom'],
+          'email' => $_POST['email'],
+      		'cv' => $_POST['cv']
         ));
 
         if ($req) {
-          echo 'Le cours a bien été ajouté !';
+          echo 'L\'étudiant a bien été ajouté !';
         } else {
-          echo 'Le cours n a pas été ajouté: erreur !';
+          echo 'L\'étudiant n a pas été ajouté: erreur !';
         }
       }
 
