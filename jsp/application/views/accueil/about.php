@@ -1,1 +1,0 @@
-Démonstration ci 3.1.7 realisée le 23/02/2018
